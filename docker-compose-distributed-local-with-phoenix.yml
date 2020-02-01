@@ -1,0 +1,116 @@
+version: "3"
+
+services:
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+    container_name: namenode
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 50070:50070
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: datanode
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 50075:50075
+
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop2.7.4-java8
+    container_name: resourcemanager
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075"
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8088:8088
+
+  nodemanager1:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop2.7.4-java8
+    container_name: nodemanager
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8042:8042
+
+  historyserver:
+    image: bde2020/hadoop-historyserver:2.0.0-hadoop2.7.4-java8
+    container_name: historyserver
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8188:8188
+  
+  zoo:
+    image: zookeeper:3.4.10
+    container_name: zoo
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888
+    ports:
+      - 2181:2181
+
+  hbase-master:
+    image: hbase-master-1.3.6
+    container_name: hbase-master
+    hostname: hbase-master
+    env_file:
+      - ./hbase-distributed-local-with-phoenix.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zoo:2181"
+    command:
+      - /opt/hbase-1.3.6/bin/hbase master start
+    ports:
+      - 16010:16010
+
+  hbase-region:
+    image: hbase-regionserver-1.3.6
+    container_name: hbase-regionserver
+    hostname: hbase-regionserver
+    env_file:
+      - ./hbase-distributed-local-with-phoenix.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zoo:2181 hbase-master:16010"
+    command:
+      - /opt/hbase-1.3.6/bin/hbase regionserver start
+    ports:
+      - 16030:16030
+
+  queryserver-1:
+    container_name: queryserver-1
+    # networks: ["vnet"]
+    # hostname: queryserver-1.vnet
+    image: phoenix-4.14.1
+    # expose: [8765]
+    ports:
+      - 8765:8765
+    depends_on: 
+      - "zoo"
+    environment:
+      - HBASE_ZOOKEEPER_QUORUM=zoo:2181
+      - HADOOP_NAMENODE1_HOSTNAME=namenode
+      - HBASE_HMASTER1_HOSTNAME=hbase-master
+      - HBASE_REGIONSERVER1_HOSTNAME=hbase-regionserver
+      - HBASE_ROOT_DIR=hdfs://namenode:9000/hbase
+    command: bin/queryserver.py  
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode:
+  hadoop_historyserver:
