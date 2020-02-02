@@ -7,21 +7,20 @@ Docker version for Hbase [1.3.6](https://hbase.apache.org/downloads.html) cluste
 This version includes Phoenix [4.14.3](https://mvnrepository.com/artifact/org.apache.phoenix/phoenix-server/4.14.3-HBase-1.3) connected to
 cluster through Zookeeper 3.4.10  
 
-### Connecting
+### Queryserver
 
 The Phoenix queryserver allows to query HBase using the [python-phoenixdb](https://python-phoenixdb.readthedocs.io/en/latest/) driver
 to easily send SQL queries and fetch data to the python side.  
 
 ### Detail
 
-**Hbase**  
-  - Hbase [Architecture](https://mapr.com/blog/in-depth-look-hbase-architecture/)
-  - Hbase [reference](http://hbase.apache.org/book.html)
-
 This cluster uses [HDFS](https://hadoop.apache.org/docs/r2.7.4/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html) to store data in a distributed environment.  
 
-**Python**  
+  - Hbase [Architecture](https://mapr.com/blog/in-depth-look-hbase-architecture/)
+  - Hbase [reference](http://hbase.apache.org/book.html)
+  
   - Python Phoenix [Driver](https://phoenix.apache.org/python.html)  
+
 
 ## Docker Images
 
@@ -41,6 +40,7 @@ docker-compose -f docker-compose-standalone.yml up -d
 ```
 The deployment is the same as in [quickstart HBase documentation](https://hbase.apache.org/book.html#quickstart).
 Can be used for testing/development, connected to Hadoop cluster.
+
 
 ## Local distributed
 
@@ -64,6 +64,12 @@ cd ../hregionserver
 docker build -t hbase-regionserver-1.3.6 .
 ```
 
+Build the Apache Phoenix image for the queryserver  
+```bash
+cd phoenix
+docker build -t phoenix-4.14.1 .
+```
+
 ### Running
 
 ```bash
@@ -72,6 +78,7 @@ docker-compose -f docker-compose-distributed-local-with-phoenix.yml up -d
 
 This deployment will start Zookeeper, HMaster and HRegionserver in separate containers.
 
+
 ## Distributed
 To run distributed hbase on docker swarm see this [doc](./distributed/README.md)
 
@@ -79,6 +86,7 @@ To run distributed hbase on docker swarm see this [doc](./distributed/README.md)
 ## Zeppelin
 
 Using Zeppelin [0.8.0](https://zeppelin.apache.org/docs/0.8.0/)  
+Start Zeppelin and create a Phoenix interpreter pointing to the Phoenix container.  
 
 #### Configuration  
 

@@ -94,10 +94,7 @@ services:
 
   queryserver-1:
     container_name: queryserver-1
-    # networks: ["vnet"]
-    # hostname: queryserver-1.vnet
     image: phoenix-4.14.1
-    # expose: [8765]
     ports:
       - 8765:8765
     depends_on: 
