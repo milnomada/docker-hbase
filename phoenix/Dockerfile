@@ -8,10 +8,10 @@ LABEL \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.docker.dockerfile="/Dockerfile" \
     org.label-schema.license="Apache License 2.0" \
-    org.label-schema.name="milnomada/apache-phoenix" \
+    org.label-schema.name="milnomada/hbase-phoenix" \
     org.label-schema.url="https://github.com/milnomada" \
     org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/milnomada/docker-apache-phoenix"
+    org.label-schema.vcs-url="https://github.com/milnomada/docker-hbase-phoenix"
 
 ENV PHOENIX_VERSION   $VERSION
 ENV PHOENIX_VER       4.14.3

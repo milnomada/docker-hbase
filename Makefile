@@ -2,10 +2,18 @@ DOCKER_NETWORK = hbase
 ENV_FILE = hadoop.env
 current_branch := $(shell git rev-parse --abbrev-ref HEAD)
 hadoop_branch := 2.0.0-hadoop2.7.4-java8
+hbase_version := 1.3.6
+phoenix_version := 4.14.3
+
+.PHONY: build standalone wordcount
+
 build:
-	docker build -t bde2020/hbase-base:$(current_branch) ./base
-	docker build -t bde2020/hbase-master:$(current_branch) ./hmaster
-	docker build -t bde2020/hbase-regionserver:$(current_branch) ./hregionserver
+	docker build -t hbase-$(hbase_version) ./base
+	docker build -t hbase-master-$(hbase_version) ./hmaster
+	docker build -t hbase-regionserver-$(hbase_version): ./hregionserver
+	docker build -t phoenix-$(phoenix_version) ./phoenix
+
+standalone:
 	docker build -t bde2020/hbase-standalone:$(current_branch) ./standalone
 
 wordcount:

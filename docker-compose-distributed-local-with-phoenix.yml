@@ -94,7 +94,7 @@ services:
 
   queryserver-1:
     container_name: queryserver-1
-    image: phoenix-4.14.1
+    image: phoenix-4.14.3
     ports:
       - 8765:8765
     depends_on: 

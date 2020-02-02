@@ -34,6 +34,11 @@ This cluster uses [HDFS](https://hadoop.apache.org/docs/r2.7.4/hadoop-project-di
 
 This configuration has **no support** for Phoenix  
 
+Run the build command to prepare the standalone image:
+```bash
+make standalone
+```
+
 To run standalone hbase:
 ```bash
 docker-compose -f docker-compose-standalone.yml up -d
@@ -47,6 +52,13 @@ Can be used for testing/development, connected to Hadoop cluster.
 Steps to run a local distributed Hbase cluster with a Phoenix service  
 
 ### Requisites
+
+Run the build command to prepare cluster images:
+```bash
+make build
+```
+
+or create them separately:   
 
 Build the base version of Hbase 1.3.6  
 This image will serve to launch hbase-master and hbase-regionserver containers  
@@ -67,7 +79,7 @@ docker build -t hbase-regionserver-1.3.6 .
 Build the Apache Phoenix image for the queryserver  
 ```bash
 cd phoenix
-docker build -t phoenix-4.14.1 .
+docker build -t phoenix-4.14.3 .
 ```
 
 ### Running
