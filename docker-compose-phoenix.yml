@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  queryserver:
+    container_name: queryserver
+    image: phoenix-4.14.3
+    ports:
+      - 8765:8765
+    environment:
+      - HBASE_ZOOKEEPER_QUORUM=$HOST_IP:2181
+      - HADOOP_NAMENODE1_HOSTNAME=$HOST_IP
+      - HBASE_HMASTER1_HOSTNAME=$HOST_IP
+      - HBASE_REGIONSERVER1_HOSTNAME=$HOST_IP
+      - HBASE_ROOT_DIR=hdfs://$HOST_IP:9000/hbase
+    command: bin/queryserver.py  
