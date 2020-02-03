@@ -10,7 +10,7 @@ phoenix_version := 4.14.3
 build:
 	docker build -t hbase-$(hbase_version) ./base
 	docker build -t hbase-master-$(hbase_version) ./hmaster
-	docker build -t hbase-regionserver-$(hbase_version): ./hregionserver
+	docker build -t hbase-regionserver-$(hbase_version) ./hregionserver
 	docker build -t phoenix-$(phoenix_version) ./phoenix
 
 standalone:
