@@ -26,7 +26,7 @@ This cluster uses [HDFS](https://hadoop.apache.org/docs/r2.7.4/hadoop-project-di
 
   - Hbase Region Server [Image](https://hub.docker.com/r/bde2020/hbase-regionserver/dockerfile)  
   - Hbase Master Server [Image](https://hub.docker.com/r/bde2020/hbase-master/dockerfile)  
-  - Docker Apache Phonix [Repo](https://github.com/smizy/docker-apache-phoenix) (To use with Python)
+  - Docker Apache Phoenix [Repo](https://github.com/smizy/docker-apache-phoenix) (To use with Python)
   - Zookeer Docker Image [configuration flags](https://hub.docker.com/_/zookeeper)  
 
 

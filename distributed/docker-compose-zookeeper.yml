@@ -12,12 +12,13 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-      placement:
-        constraints:
-          - node.hostname == akswnc4.aksw.uni-leipzig.de
+      #placement:
+      #  constraints:
+      #    - node.hostname == akswnc4.aksw.uni-leipzig.de
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+      ZOO_MAX_CLIENT_CNXNS: 50
   zoo2:
     image: zookeeper:3.4.10
     networks:
@@ -29,12 +30,13 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-      placement:
-        constraints:
-          - node.hostname == akswnc5.aksw.uni-leipzig.de
+      # placement:
+      #  constraints:
+      #    - node.hostname == akswnc5.aksw.uni-leipzig.de
     environment:
       ZOO_MY_ID: 2
       ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zoo3:2888:3888
+      ZOO_MAX_CLIENT_CNXNS: 50
   zoo3:
     image: zookeeper:3.4.10
     networks:
@@ -46,12 +48,13 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-      placement:
-        constraints:
-          - node.hostname == akswnc6.aksw.uni-leipzig.de
+      #placement:
+      #  constraints:
+      #    - node.hostname == akswnc6.aksw.uni-leipzig.de
     environment:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=0.0.0.0:2888:3888
+      ZOO_MAX_CLIENT_CNXNS: 50
 
 volumes:
   zoo1_data:
